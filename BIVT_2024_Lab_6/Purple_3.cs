@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BIVT_2024_Lab_6
+namespace Lab_6
 {
     public class Purple_3
     {
@@ -59,20 +59,14 @@ namespace BIVT_2024_Lab_6
             {
                 _name = name;
                 _surname = surname;
-                _marks = new double[7];
-                _places = new int[7];
+                _marks = new double[7] { 0, 0, 0, 0, 0, 0, 0 };
+                _places = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
                 _currentJudge = 0;
-
-                for (int i = 0; i < 7; i++)
-                {
-                    _marks[i] = 0;
-                    _places[i] = 0;
-                }
             }
 
             public void Evaluate(double result)
             {
-                if (_marks == null || _currentJudge > 7) return;
+                if (_marks == null || _currentJudge >= _marks.Length) return;
 
                 _marks[_currentJudge] = result;
                 _currentJudge++;
@@ -88,6 +82,11 @@ namespace BIVT_2024_Lab_6
 
                     for (int i = 0; i < participants.Length; i++)
                     {
+                        if (participants[i]._places == null)
+                        {
+                            participants[i]._places = new int[7];
+                        }
+
                         participants[i]._places[judgeIndex] = i + 1;
                     }
                 }
@@ -101,7 +100,7 @@ namespace BIVT_2024_Lab_6
 
                 while (index < array.Length)
                 {
-                    if (index == 0 || array[index].Marks[judgeIndex] <= array[index - 1].Marks[judgeIndex])
+                    if (index == 0 || array[index].Marks == null || array[index - 1].Marks == null || array[index].Marks[judgeIndex] <= array[index - 1].Marks[judgeIndex])
                     {
                         index++;
                     }
@@ -118,6 +117,10 @@ namespace BIVT_2024_Lab_6
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
+                foreach (var x in array)
+                {
+                    if (x.Places == null) return;
+                }
 
                 int index = 0;
 
@@ -139,6 +142,9 @@ namespace BIVT_2024_Lab_6
 
             private static bool CompareParticipants(Participant first, Participant second)
             {
+                if (first.Places == null || second.Places == null || first.Marks == null || second.Marks == null)
+                    return false;
+
                 if (first.Score != second.Score)
                 {
                     return first.Score > second.Score; 
@@ -149,7 +155,7 @@ namespace BIVT_2024_Lab_6
 
                 if (firstMinPlace != secondMinPlace)
                 {
-                    return firstMinPlace > secondMinPlace; 
+                    return firstMinPlace < secondMinPlace; 
                 }
 
                 double firstMarksSum = first.Marks.Sum();

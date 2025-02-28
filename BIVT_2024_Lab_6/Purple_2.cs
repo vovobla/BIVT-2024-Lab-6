@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BIVT_2024_Lab_6
+namespace Lab_6
 {
     public class Purple_2
     {
@@ -66,15 +66,12 @@ namespace BIVT_2024_Lab_6
                 _name = name;
                 _surname = surname;
                 _distance = 0;
-                _marks = new int[5];
-
-                for (int i = 0; i < 5; i++) 
-                    _marks[i] = 0;
+                _marks = new int[5] { 0, 0, 0, 0, 0 };
             }
 
             public void Jump(int distance, int[] marks)
             {
-                if (marks == null || marks.Length != _marks.Length) return;
+                if (marks == null || _marks == null || marks.Length != _marks.Length) return;
 
                 _distance = distance;
                 Array.Copy(marks, _marks, marks.Length);

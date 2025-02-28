@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace BIVT_2024_Lab_6
+namespace Lab_6
 {
     public class Purple_5
     {
@@ -65,17 +65,7 @@ namespace BIVT_2024_Lab_6
             private Response[] _responses;
 
             public string Name => _name;
-            public Response[] Responses
-            {
-                get
-                {
-                    if (_responses == null) return null;
-
-                    var responses = new Response[_responses.Length];
-                    Array.Copy(_responses, responses, _responses.Length);
-                    return responses;
-                }
-            }
+            public Response[] Responses => _responses;
 
             public Research(string name)
             {

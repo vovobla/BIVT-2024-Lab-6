@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BIVT_2024_Lab_6
+namespace Lab_6
 {
     public class Purple_4
     {
@@ -47,17 +47,7 @@ namespace BIVT_2024_Lab_6
             private Sportsman[] _sportsmen;
 
             public string Name => _name;
-            public Sportsman[] Sportsmen
-            {
-                get
-                {
-                    if (_sportsmen == null) return null;
-
-                    var sportsmen = new Sportsman[_sportsmen.Length];
-                    Array.Copy(_sportsmen, sportsmen, _sportsmen.Length);
-                    return sportsmen;
-                }
-            }
+            public Sportsman[] Sportsmen => _sportsmen;
 
             public Group(string name)
             {
@@ -69,14 +59,15 @@ namespace BIVT_2024_Lab_6
             {
                 _name = group.Name;
 
-                if(group.Sportsmen != null)
+                if (group.Sportsmen != null)
+                {
+                    _sportsmen = new Sportsman[group.Sportsmen.Length];
+                    Array.Copy(group.Sportsmen, _sportsmen, group.Sportsmen.Length);
+                }
+                else
                 {
                     _sportsmen = new Sportsman[0];
-                    return;
                 }
-
-                _sportsmen = new Sportsman[group.Sportsmen.Length];
-                Array.Copy(group.Sportsmen, _sportsmen, group.Sportsmen.Length);
             }
 
             public void Add(Sportsman newSportsman)

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static BIVT_2024_Lab_6.Purple_4;
-using static BIVT_2024_Lab_6.Purple_5;
+using static Lab_6.Purple_4;
+using static Lab_6.Purple_5;
 
-namespace BIVT_2024_Lab_6
+namespace Lab_6
 {
     public class Program
     {

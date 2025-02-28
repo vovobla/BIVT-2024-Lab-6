@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace BIVT_2024_Lab_6
+namespace Lab_6
 {
     public class Purple_1
     {
@@ -81,12 +81,9 @@ namespace BIVT_2024_Lab_6
             {
                 _name = name;
                 _surname = surname;
-                _coefs = new double[4];
+                _coefs = new double[4] { 2.5, 2.5, 2.5, 2.5 };
                 _marks = new int[4, 7];
                 _currentJump = 0;
-
-                for (int i = 0; i < 4; i++)
-                    _coefs[i] = 2.5;
 
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 7; j++)
@@ -95,7 +92,7 @@ namespace BIVT_2024_Lab_6
 
             public void SetCriterias(double[] coefs)
             {
-                if (coefs == null || coefs.Length != _coefs.Length) return;
+                if (coefs == null || _coefs == null || coefs.Length != _coefs.Length) return;
 
                 for (int i = 0; i < coefs.Length; i++)
                     _coefs[i] = coefs[i];
