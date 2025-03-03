@@ -28,7 +28,7 @@ namespace Lab_6
 
             public int CountVotes(Response[] responses, int questionNumber)
             {
-                if (responses == null) return 0;
+                if (responses == null || questionNumber < 1 || questionNumber > 3) return 0;
 
                 int answered = 0;
 
@@ -37,13 +37,13 @@ namespace Lab_6
                     switch (questionNumber)
                     {
                         case 1:
-                            if (responses[i].Animal != null && responses[i].Animal != "") answered++;
+                            if (responses[i].Animal != null && responses[i].Animal != "" && responses[i].Animal == _animal) answered++;
                             break;
                         case 2:
-                            if (responses[i].CharacterTrait != null && responses[i].CharacterTrait != "") answered++;
+                            if (responses[i].CharacterTrait != null && responses[i].CharacterTrait != "" && responses[i].CharacterTrait == _characterTrait) answered++;
                             break;
                         case 3:
-                            if (responses[i].Concept != null && responses[i].Concept != "") answered++;
+                            if (responses[i].Concept != null && responses[i].Concept != "" && responses[i].Concept == _concept) answered++;
                             break;
                         default:
                             return 0;
@@ -86,10 +86,11 @@ namespace Lab_6
 
             public string[] GetTopResponses(int question)
             {
-                if (_responses == null || _responses.Length == 0) return null;
+                if (_responses == null || _responses.Length == 0 || question < 1 || question > 3) return null;
 
                 string[] responses = new string[0];
                 int[] counts = new int[0];
+                int[] firstOccurrenceIndices = new int[0]; 
 
                 foreach (var response in _responses)
                 {
@@ -108,7 +109,7 @@ namespace Lab_6
                             break;
                     }
 
-                    if (answer != null && answer != "")
+                    if (!string.IsNullOrEmpty(answer))
                     {
                         int index = Array.IndexOf(responses, answer);
 
@@ -116,8 +117,12 @@ namespace Lab_6
                         {
                             Array.Resize(ref responses, responses.Length + 1);
                             Array.Resize(ref counts, counts.Length + 1);
+                            Array.Resize(ref firstOccurrenceIndices, firstOccurrenceIndices.Length + 1);
+
                             responses[responses.Length - 1] = answer;
                             counts[counts.Length - 1] = 1;
+
+                            firstOccurrenceIndices[firstOccurrenceIndices.Length - 1] = FindFirstOccurrenceIndex(answer, question);
                         }
                         else
                         {
@@ -126,7 +131,7 @@ namespace Lab_6
                     }
                 }
 
-                for (int i = 0; i < counts.Length - 1; i++)
+                for (int i = 0; i < counts.Length; i++)
                 {
                     for (int j = i + 1; j < counts.Length; j++)
                     {
@@ -135,10 +140,31 @@ namespace Lab_6
                             int tempCount = counts[i];
                             counts[i] = counts[j];
                             counts[j] = tempCount;
-
+                            
                             string tempResponse = responses[i];
                             responses[i] = responses[j];
                             responses[j] = tempResponse;
+                            
+                            int tempIndex = firstOccurrenceIndices[i];
+                            firstOccurrenceIndices[i] = firstOccurrenceIndices[j];
+                            firstOccurrenceIndices[j] = tempIndex;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < counts.Length; i++)
+                {
+                    for (int j = i + 1; j < counts.Length; j++)
+                    {
+                        if (counts[i] == counts[j] && firstOccurrenceIndices[i] > firstOccurrenceIndices[j])
+                        {
+                            string tempResponse = responses[i];
+                            responses[i] = responses[j];
+                            responses[j] = tempResponse;
+
+                            int tempIndex = firstOccurrenceIndices[i];
+                            firstOccurrenceIndices[i] = firstOccurrenceIndices[j];
+                            firstOccurrenceIndices[j] = tempIndex;
                         }
                     }
                 }
@@ -148,6 +174,29 @@ namespace Lab_6
                 Array.Copy(responses, topResponses, resultSize);
 
                 return topResponses;
+            }
+
+            private int FindFirstOccurrenceIndex(string answer, int question)
+            {
+                for (int i = 0; i < _responses.Length; i++)
+                {
+                    switch (question)
+                    {
+                        case 1:
+                            if (_responses[i].Animal == answer)
+                                return i;
+                            break;
+                        case 2:
+                            if (_responses[i].CharacterTrait == answer)
+                                return i;
+                            break;
+                        case 3:
+                            if (_responses[i].Concept == answer)
+                                return i;
+                            break;
+                    }
+                }
+                return -1;
             }
 
             public void Print()

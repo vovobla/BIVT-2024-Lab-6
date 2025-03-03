@@ -122,21 +122,17 @@ namespace Lab_6
                     if (x.Places == null) return;
                 }
 
-                int index = 0;
-
-                while (index < array.Length)
+                for (int i = 0; i < array.Length; i++)
                 {
-                    if (index == 0 || CompareParticipants(array[index], array[index - 1]))
+                    Participant key = array[i];
+                    int j = i - 1;
+
+                    while (j >= 0 && CompareParticipants(array[j], key))
                     {
-                        index++;
+                        array[j + 1] = array[j];
+                        j = j - 1;
                     }
-                    else
-                    {
-                        Participant temp = array[index];
-                        array[index] = array[index - 1];
-                        array[index - 1] = temp;
-                        index--;
-                    }
+                    array[j + 1] = key;
                 }
             }
 
