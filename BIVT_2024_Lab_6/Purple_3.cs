@@ -157,7 +157,7 @@ namespace Lab_6
                 double firstMarksSum = first.Marks.Sum();
                 double secondMarksSum = second.Marks.Sum();
 
-                return firstMarksSum > secondMarksSum;
+                return firstMarksSum < secondMarksSum;
             }
 
             public void Print()
