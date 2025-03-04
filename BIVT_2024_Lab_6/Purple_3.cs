@@ -151,7 +151,7 @@ namespace Lab_6
 
                 if (firstMinPlace != secondMinPlace)
                 {
-                    return firstMinPlace < secondMinPlace; 
+                    return firstMinPlace > secondMinPlace; 
                 }
 
                 double firstMarksSum = first.Marks.Sum();
